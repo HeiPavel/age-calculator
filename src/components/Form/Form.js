@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from "react";
 import arrowIcon from "../../images/icon-arrow.svg";
+import { inputValidityCheck, checkIfDateIsValid, isDateInPast, findAge } from "../../util/helperFunctions";
 
-export const Form = () => {
+export const Form = ({setAge}) => {
     const [day, setDay] = useState('');
     const [month, setMonth] = useState('');
     const [year, setYear] = useState('');
@@ -10,6 +11,7 @@ export const Form = () => {
     const [monthError, setMonthError] = useState('');
     const [yearError, setYearError] = useState('');
     const [checkValidity, setCheckValidity] = useState(false);
+    const [isValid, setIsValid] = useState(false);
 
     const handleChange = (event) => {
         event.preventDefault();
@@ -30,6 +32,15 @@ export const Form = () => {
         setCheckValidity(true);
     }
 
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        if (!day || !month || !year) {
+            setCheckValidity(true);
+        } else {
+            isValid ? setAge(findAge(day, month, year)) : setAge({resDay: '- -', resMonth: '- -', resYear: '- -'});
+        }
+    }
+
     useEffect(() => {
         const inputContainer = document.getElementsByClassName('input-container');
         const dayInput = document.getElementById('day');
@@ -37,51 +48,24 @@ export const Form = () => {
         const yearInput = document.getElementById('year');
         const currentDate = new Date();
         if (checkValidity) {
-            if (day) {
-                if (day > 31) {
-                    setDayError('Must be a valid day');
-                    dayInput.setCustomValidity("error");
-                } else {
-                    dayInput.setCustomValidity("");
-                }
-            } else {
-                setDayError('This field is required');
+            inputValidityCheck(day, 31, dayInput, setDayError);
+            inputValidityCheck(month, 12, monthInput, setMonthError);
+            inputValidityCheck(year, currentDate.getFullYear(), yearInput, setYearError);
+
+            if (day && month && year) {
+                checkIfDateIsValid(Number(day), Number(month), Number(year), inputContainer, setDayError, setMonthError, setYearError);
+                isDateInPast(Number(day), Number(month), Number(year), currentDate, dayInput, monthInput, setDayError, setMonthError);
             }
-    
-            if (month) {
-                if (month > 12) {
-                    setMonthError('Must be a valid month');
-                    monthInput.setCustomValidity("error");
-                } else {
-                    monthInput.setCustomValidity("");
-                }
-            } else {
-                setMonthError('This field is required');
-            }
-    
-            if (year) {
-                if (year > currentDate.getFullYear()) {
-                    setYearError('Must be in the past');
-                    yearInput.setCustomValidity("error");
-                } else {
-                    yearInput.setCustomValidity("");
-                }
-            } else {
-                setYearError('This field is required');
-            }
-    
+                
             for (const container of inputContainer) {
-                if (!container.querySelector('input').validity.valid) {
-                    container.classList.add('invalid');
-                } else {
-                    container.classList.remove('invalid');
-                }
+                !container.querySelector('input').validity.valid ? container.classList.add('invalid') : container.classList.remove('invalid');
             }
+            [...inputContainer].every(container => container.querySelector('input').validity.valid) ? setIsValid(true) : setIsValid(false);
         }
     }, [day, month, year, checkValidity]);
 
     return (
-        <form noValidate>
+        <form onSubmit={handleSubmit} noValidate>
             <div className="inputs-container">
                 <div className="input-container">
                     <label htmlFor="day">DAY</label>

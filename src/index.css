@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,700;1,400;1,800&display=swap');
+
 :root {
   font-size: 16px;
   font-family: 'Poppins', sans-serif;
@@ -11,6 +13,11 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
 }
 
 p {
@@ -51,7 +58,8 @@ form {
 
 input[type=text] {
   box-sizing: border-box;
-  padding: 1rem;
+  font-family: 'Poppins', sans-serif;
+  padding: 0.7rem 1rem;
   font-size: 2rem;
   width: 100%;
   border: 1px solid hsl(0, 0%, 86%);
@@ -120,11 +128,6 @@ button {
 button img {
   width: 50%;
   height: auto;
-}
-
-button:hover {
-  background-color: hsl(0, 0%, 8%);
-  box-shadow: 0 0 5px 5px hsla(0, 0%, 8%, 0.3);
 }
 
 .result {
@@ -244,5 +247,12 @@ button:hover {
 
   .result p {
       font-size: 2.5rem;
+  }
+}
+
+@media (hover: hover) {
+  button:hover {
+    background-color: hsl(0, 0%, 8%);
+    box-shadow: 0 0 5px 5px hsla(0, 0%, 8%, 0.3);
   }
 }
