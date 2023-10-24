@@ -2,7 +2,7 @@ export const inputValidityCheck = (value, max, input, setterFunction) => {
     const id = input.getAttribute('id');
     const message = id !== 'year' ? `Must be a valid ${id}` : 'Must be in the past';
     if (value) {
-        if (value > max) {
+        if (value > max || value < 1) {
             setterFunction(message);
             input.setCustomValidity("error");
         } else {

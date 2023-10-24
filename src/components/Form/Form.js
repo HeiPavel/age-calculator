@@ -19,16 +19,17 @@ export const Form = ({setAge}) => {
         const {value} = event.target;
         let input = value;
         input = input.replace(/[^0-9]/g, '');
-        if (id !== 'year' && input > 0 && input < 10 && !input.startsWith('0')) input = '0' + input;
+        if (input.length > 1 && !Number(input)) input = '0';
         if (id !== 'year' && input >= 10) {
             input = input.replace(/^0+(?=[1-9])/g, '');
+            if (input.length > 2) input = input.slice(0,2);
         } else {
-            if (id === 'year') input = input.replace(/^0+(?=[1-9])/g, '');
-            if (id !== 'year' && input < 10) input = input.replace(/(?<=^0)0+(?=[1-9])/g, '');
+            if (id !== 'year' && input < 10) input = input.replace(/(?<=^0)0+(?=[0-9])/g, '');
+            if (id === 'year') input = input.replace(/^0/g, '');
         }
-        if (id === 'day') setDay(Number(input) ? input : '');
-        if (id === 'month') setMonth(Number(input) ? input : '');
-        if (id === 'year') setYear(Number(input) ? input : '');
+        if (id === 'day') setDay(input);
+        if (id === 'month') setMonth(input);
+        if (id === 'year') setYear(input);
         setCheckValidity(true);
     }
 
@@ -69,17 +70,17 @@ export const Form = ({setAge}) => {
             <div className="inputs-container">
                 <div className="input-container">
                     <label htmlFor="day">DAY</label>
-                    <input type="text" name="day" id="day" placeholder="DD" required value={day} onChange={handleChange} />
+                    <input type="text" name="day" id="day" placeholder="DD" required autoComplete="off" value={day} onChange={handleChange} />
                     <span className="error">{dayError}</span>
                 </div>
                 <div className="input-container">
                     <label htmlFor="month">MONTH</label>
-                    <input type="text" name="month" id="month" placeholder="MM" required value={month} onChange={handleChange} />
+                    <input type="text" name="month" id="month" placeholder="MM" required autoComplete="off" value={month} onChange={handleChange} />
                     <span className="error">{monthError}</span>
                 </div>
                 <div className="input-container">
                     <label htmlFor="year">YEAR</label>
-                    <input type="text" name="year" id="year" placeholder="YYYY" required value={year} onChange={handleChange} />
+                    <input type="text" name="year" id="year" placeholder="YYYY" required autoComplete="off" value={year} onChange={handleChange} />
                     <span className="error">{yearError}</span>
                 </div>
             </div>
