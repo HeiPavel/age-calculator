@@ -66,6 +66,7 @@ input[type=text] {
   border-radius: 7px;
   font-weight: 700;
   outline: none;
+  caret-color: hsl(259, 100%, 65%);
 }
 
 input[type=text]::placeholder {
@@ -75,7 +76,6 @@ input[type=text]::placeholder {
 
 input[type=text]:focus, input[type=text]:hover {
   border: 1px solid hsl(259, 100%, 65%);
-  caret-color: hsl(259, 100%, 65%);
 }
 
 input:-webkit-autofill, input:-webkit-autofill:focus, input:autofill, input:autofill:focus {
