@@ -14,7 +14,6 @@ export const Form = ({setAge}) => {
     const [isValid, setIsValid] = useState(false);
 
     const handleChange = (event) => {
-        event.preventDefault();
         const id = event.target.getAttribute('id');
         const {value} = event.target;
         let input = value;
